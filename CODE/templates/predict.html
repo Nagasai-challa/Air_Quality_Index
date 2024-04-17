@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Air Quality Index</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #494d60;
+            position: relative;
+        }
+
+        .home-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .login {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            background-color: #a0d2ea;
+            margin-top: 60px;
+        }
+
+        h1 {
+            font-size: 50px;
+            color: #333;
+            margin-bottom: 20px;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 500px;
+            margin: 0 auto; 
+        }
+
+        p {
+            margin-bottom: 5px;
+            font-size: 25px;
+            color: #777;
+            text-align: left;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-bottom: 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #button {
+            background-color: #28a745;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        #button:hover {
+            background-color: #218c3f;
+        }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('index') }}" class="home-link">Home</a>
+
+    <div class="login">
+        <h1><strong>Air Quality Index</strong></h1>
+
+        <form action="{{ url_for('result') }}" method="post">
+            <p><small><b>PM2.5</b> (Usually ranges from 0.1 to 120)</small></p>
+            <input value="1" type="number" step="any" placeholder="Enter Value" name="PM2.5" required>
+            <p><small><b>PM10</b> (Usually ranges from 0.1 to 120)</small></p>
+            <input value="1" type="number" step="any" placeholder="Enter Value" name="PM10" required>
+            <p><small><b>NO2</b> (Usually ranges from 0.01 to 60)</small></p>
+            <input value="1" type="number" step="any" placeholder="Enter Value" name="NO2" required>
+            <p><small><b>NH3</b> (Usually ranges from 0.1 to 120)</small></p>
+            <input value="1" type="number" step="any" placeholder="Enter Value" name="NH3" required>
+            <p><small><b>SO2</b> (Usually ranges from 0.01 to 25)</small></p>
+            <input value="1" type="number" step="any" placeholder="Enter Value" name="SO2" required>
+            <p><small><b>CO</b> (Usually ranges from 0 to 3)</small></p>
+            <input value="1" type="number" step="any" placeholder="Enter Value" name="CO" required>
+            <p><small><b>O3</b> (Usually ranges from 0.01 to 65)</small></p>
+            <input value="1" type="number" step="any" placeholder="Enter Value" name="O3" required>
+            <button id="button" type="submit">Predict</button>
+        </form>
+    </div>
+</body>
+</html>

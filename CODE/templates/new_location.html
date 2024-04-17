@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AQI Prediction</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #3aafa9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      text-align: center;
+      background-color: #17242a;
+      padding: 30px;
+      width: 300px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 6px  6px  10px;
+    }
+    h1 {
+      color: #cea134;
+      margin-bottom: 35px;
+    }
+    label {
+      display: block;
+      font-size: 18px;
+      color: white;
+      margin-bottom: 10px;
+      text-align: left;
+      font-family: impact;
+    }
+    select {
+      padding: 12px;
+      font-size: 16px;
+      border: 2px solid #cccccc;
+      border-radius: 8px;
+      width: 100%;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 18px;
+      background-color: #4caf50;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button:hover {
+      background-color: #388e3c;
+    }
+    .home-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      background-color: #1976d2;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .home-link:hover {
+      background-color: #1565c0;
+    }
+  </style>
+</head>
+<body>
+  <a href="{{ url_for('index') }}" class="home-link">Home</a>
+  <div class="container">
+    <h1>AQI Prediction</h1>
+
+    <label for="stateSelect">Select a State:</label>
+    <select id="stateSelect">
+      <option value="--select--">--select--</option>
+      <option value="andhra-pradesh">Andhra Pradesh</option>
+      <option value="telangana">Telangana</option>
+      <option value="tamil-nadu">Tamil Nadu</option>
+      </select>
+
+    <label for="locationSelect">Select a City:</label>
+    <select id="locationSelect" disabled>
+      </select>
+
+    <br>
+
+    <button onclick="predictAQI()">Predict AQI</button>
+  </div>
+
+  <script>
+    const stateSelect = document.getElementById('stateSelect');
+    const locationSelect = document.getElementById('locationSelect');
+    const cityData = {
+      "andhra-pradesh": [
+        { name: "--Select--", lat: 0, lon: 0 },
+        { name: "Vishakapatnam", lat: 17.6868, lon: 83.2185 },
+        { name: "Thirupathi", lat: 13.6288, lon: 79.4192 },
+        { name: "Vijayawada", lat: 16.5062, lon: 80.6480 },
+        { name: "Kurnool", lat: 15.8281, lon: 78.0373 },
+        { name: "Ramagundum", lat: 18.7519, lon: 79.5134 },
+        { name: "Guntur", lat: 16.3067, lon: 80.4365 },
+        { name: "Nellore", lat: 14.4426, lon: 79.9865 },
+        { name: "Kakinada", lat: 16.9891, lon: 82.2475 },
+        { name: "Chitoor", lat: 13.2172, lon: 79.1003 },
+        { name: "Anatapur", lat: 14.6819, lon: 77.6006 },
+        { name: "Kadapa", lat: 14.4673, lon: 78.8242 },
+        { name: "Eluru", lat: 16.7107, lon: 81.0952 },
+        { name: "Ongole", lat: 15.5057, lon: 80.0499 },
+        { name: "Rajamundry", lat: 17.0005, lon: 81.8040 },
+        { name: "Srikakulam", lat: 18.2949, lon: 83.8938 },
+        { name: "Vizianagaram", lat: 18.1067, lon: 83.3956 }
+        
+      ],
+      "telangana": [
+        { name: "--Select--", lat: 0, lon: 0 },
+        { name: "Hyderabad", lat: 17.3933, lon: 78.3411 },
+        { name: "Patencheru", lat: 17.5287, lon: 78.2667 },
+        { name: "Warangal", lat: 17.9693, lon: 79.5926 },
+        { name: "Nalgonda", lat: 17.0577, lon: 79.2684 },
+        { name: "Karimnagar", lat: 18.4386, lon: 79.1288 },
+        { name: "Khamam", lat: 17.2473, lon: 80.1514 },
+        { name: "Sangareddy", lat: 17.6075, lon: 78.0798 },
+        { name: "Nizamabad", lat: 18.6725, lon: 78.0941 },
+        { name: "Manchiriala", lat: 18.8714, lon: 79.4443 },
+      ],
+      "tamil-nadu": [
+            { name: "--Select--", lat: 0, lon: 0},
+            { "name": "Ariyalur", "lat": 11.1404, "lon": 79.0745 },
+            { "name": "Chengalpattu", "lat": 12.6819, "lon": 79.9888 },
+            { "name": "Coimbatore", "lat": 11.0168, "lon": 76.9558 },
+            { "name": "Cuddalore", "lat": 11.748, "lon": 79.7714 },
+            { "name": "Dindigul", "lat": 10.3624, "lon": 77.9695 },
+            { "name": "Hosur", "lat": 12.7409, "lon": 77.8253 },
+            { "name": "Kanchipuram", "lat": 12.8185, "lon": 79.6947 },
+            { "name": "Ooty", "lat": 11.4102, "lon": 76.695 },
+            { "name": "Ramanathapuram", "lat": 9.3639, "lon": 78.8395 },
+            { "name": "Tiruchirappalli", "lat": 10.7905, "lon": 78.7047 },
+            { "name": "Vellore", "lat": 12.9165, "lon": 79.1325 }
+    ]
+
+    };
+
+    function populateCities(selectedState) {
+      locationSelect.innerHTML = "";
+
+      if (selectedState) {
+        const cities = cityData[selectedState];
+        cities.forEach(city => {
+          const option = document.createElement('option');
+          option.value = `${city.lat},${city.lon}`;
+          option.text = city.name;
+          locationSelect.appendChild(option);
+        });
+        locationSelect.disabled = false;
+      } else {
+        locationSelect.disabled = true;
+      }
+    }
+
+    stateSelect.addEventListener('change', () => {
+      const selectedState = stateSelect.value;
+      populateCities(selectedState);
+    });
+
+    function predictAQI() {
+      const locationSelect = document.getElementById('locationSelect');
+      const selectedLocation = locationSelect.value;
+      const [lat, lon] = selectedLocation.split(',');
+      window.location.href = `/after_location/${lat}/${lon}`;
+    }
+
+    populateCities(stateSelect.value);
+  </script>
+</body>
+</html>
