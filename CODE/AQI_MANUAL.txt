@@ -1,0 +1,78 @@
+Suppose we have the following real-time pollutant concentration data (in µg/m³):
+
+PM10: 95
+PM2.5: 55
+SO2: 20
+NO2: 35
+NH3: 15
+O3: 80
+
+For PM2.5:
+
+IAQI_PM2.5 = (IHi - ILo) / (BPHi - BPLo) * (Cp - BPLo) + ILo
+
+Using the breakpoints and AQI values provided earlier:
+
+IAQI_PM2.5 = (60 - 31) / (60 - 31) * (55 - 31) + 31
+
+IAQI_PM2.5 ≈ 55
+
+For SO2:
+
+IAQI_SO2 = (IHi - ILo) / (BPHi - BPLo) * (Cp - BPLo) + ILo
+
+Using the breakpoints and AQI values provided earlier:
+
+IAQI_SO2 = (50 - 0) / (50 - 0) * (20 - 0) + 0
+
+IAQI_SO2 ≈ 40
+
+For NO2:
+
+IAQI_NO2 = (IHi - ILo) / (BPHi - BPLo) * (Cp - BPLo) + ILo
+
+Using the breakpoints and AQI values provided earlier:
+
+IAQI_NO2 = (50 - 0) / (50 - 0) * (35 - 0) + 0
+
+IAQI_NO2 ≈ 35
+
+For NH3:
+
+IAQI_NH3 = (IHi - ILo) / (BPHi - BPLo) * (Cp - BPLo) + ILo
+
+Using the breakpoints and AQI values provided earlier:
+
+IAQI_NH3 = (50 - 0) / (50 - 0) * (15 - 0) + 0
+
+IAQI_NH3 ≈ 15
+
+For O3:
+
+IAQI_O3 = (IHi - ILo) / (BPHi - BPLo) * (Cp - BPLo) + ILo
+
+Using the breakpoints and AQI values provided earlier:
+
+IAQI_O3 = (100 - 51) / (100 - 51) * (80 - 51) + 51
+
+IAQI_O3 ≈ 80
+
+Now, let's determine the AQI category for each pollutant:
+
+PM10: IAQI ≈ 92
+
+PM2.5: IAQI ≈ 55 
+
+SO2: IAQI ≈ 40 
+
+NO2: IAQI ≈ 35 
+
+NH3: IAQI ≈ 15 
+
+O3: IAQI ≈ 80 
+
+Finally, the Final AQI will be the maximum of all individual AQI values:
+
+Final AQI = Maximum(92, 55, 40, 35, 15, 80)
+
+Final AQI = 92
